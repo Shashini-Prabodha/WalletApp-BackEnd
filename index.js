@@ -23,6 +23,11 @@ app.use(bodyParser.json())
 const user = require("./routes/UserRoute")
 app.use('/user',user)
 
+const income = require("./routes/IncomeRoute")
+app.use('/income',income)
+
+const expense = require("./routes/ExpenseRoute")
+app.use('/expense',expense)
 
 app.listen(port ,()=>{
     console.log("Server Start")

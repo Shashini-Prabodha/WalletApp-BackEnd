@@ -12,9 +12,11 @@ router.get("/",async(req,res)=>{
         res.send('Error'+error)
     }
 })
-router.get("get/:id", async(req,res) => {
+router.get("/get/:_id", async(req,res) => {
+    console.log("income get nme user");
+
     try{
-           const user = await User.findById(req.params.id)
+           const user = await User.findOne(req.params)
            res.json(user)
     }catch(err){
         res.send('Error ' + err)
