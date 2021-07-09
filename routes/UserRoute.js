@@ -13,7 +13,7 @@ router.get("/",async(req,res)=>{
     }
 })
 router.get("/get/:_id", async(req,res) => {
-    console.log("income get nme user");
+    console.log("income get name user");
 
     try{
            const user = await User.findOne(req.params)

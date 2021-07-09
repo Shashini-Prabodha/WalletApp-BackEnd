@@ -43,4 +43,23 @@ router.post('/',async(req,res)=>{
     }
 })
 
+
+router.get("/get/income/:userID", async(req,res) => {
+    console.log("tot income get by user");
+
+    try{
+           const income = await Income.aggregate([{$group : {userID : req.params.userID, total : {$sum : "$price"}}}])
+console.log(income+"***");
+           res.json(income)
+    }catch(err){
+        res.send('Error ' + err)
+    }
+})
+
+
+
+
+
 module.exports = router
+
+
