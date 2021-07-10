@@ -1,64 +1,73 @@
 const express = require('express')
 const router = express.Router()
-const Income=require('../model/Income')
+const Income = require('../model/Income')
 
 
-router.get("/",async(req,res)=>{
-     try {
+router.get("/", async (req, res) => {
+    try {
         console.log("income get");
-        const incomes=await Income.find()
+        const incomes = await Income.find()
         res.json(incomes)
     } catch (error) {
-        res.send('Error'+error)
+        res.send('Error' + error)
     }
 })
-router.get("/get/:userID", async(req,res) => {
+router.get("/get/:userID", async (req, res) => {
     console.log("income get nme user");
 
-    try{
-           const income = await Income.findOne(req.params)
-           res.json(income)
-    }catch(err){
+    try {
+        const income = await Income.findOne(req.params)
+        res.json(income)
+    } catch (err) {
         res.send('Error ' + err)
     }
 })
 
-router.post('/',async(req,res)=>{
+router.post('/', async (req, res) => {
     console.log("income post");
-    
-    const income=new Income({
-        category:req.body.category,
-        price:req.body.price,
-        date:req.body.date,
-        userID:req.body.userID,
+
+    const income = new Income({
+        category: req.body.category,
+        price: req.body.price,
+        date: req.body.date,
+        userID: req.body.userID,
 
     })
 
     try {
-        const newIncome= await income.save()
+        const newIncome = await income.save()
         res.json(newIncome)
     } catch (error) {
         res.send(error.message)
-        
+
     }
 })
 
 
-router.get("/get/income/:userID", async(req,res) => {
-    console.log("tot income get by user");
+router.get("/get/income/:userID", async (req, res) => {
+    console.log("income get nme user");
 
-    try{
-           const income = await Income.aggregate([{$group : {userID : req.params.userID, total : {$sum : "$price"}}}])
-console.log(income+"***");
-           res.json(income)
-    }catch(err){
-        res.send('Error ' + err)
+    try {
+        const income = await Income.find(req.params)
+        let tot = 0;
+        for (const i in income) {
+            tot += income[i].price;
+            console.log(" tot-> " + tot);
+
+        }
+        res.json(tot)
+    } catch (err) {
+        res.send('Error ' + err.message)
     }
+
 })
 
+// db.incomes.aggregate(
+//     [
+//         {$match:{}},{$group:{userID:"60e803ec8c475437dcd4df65",total:{$sum:'$price'}}}
+//     ]
 
-
-
+// )
 
 module.exports = router
 

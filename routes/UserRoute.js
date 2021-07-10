@@ -22,7 +22,18 @@ router.get("/get/:_id", async(req,res) => {
         res.send('Error ' + err)
     }
 })
+router.get("/get/email/:email", async(req,res) => {
+    console.log("income get email user"+req.params.email);
 
+    try{
+           const user = await User.findOne(req.params)
+           res.json(user)
+    console.log("sent user");
+
+    }catch(err){
+        res.send('Error ' + err)
+    }
+})
 router.post('/',async(req,res)=>{
     const user=new User({
         name:req.body.name,

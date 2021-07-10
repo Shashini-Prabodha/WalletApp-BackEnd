@@ -39,4 +39,24 @@ router.post('/',async(req,res)=>{
     }
 })
 
+
+router.get("/get/expense/:userID", async (req, res) => {
+    console.log("expense get nme user");
+
+    try {
+        const expense = await Expense.find(req.params)
+        let tot = 0;
+        for (const i in expense) {
+            tot += expense[i].price;
+            console.log(" tot-> " + tot);
+
+        }
+        res.json(tot)
+    } catch (err) {
+        res.send('Error ' + err.message)
+    }
+
+})
+
+
 module.exports = router
